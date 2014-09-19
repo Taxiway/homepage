@@ -27,6 +27,11 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 				$(".paragraph").append('<h2 class="date">' + date + "</h2>");
 				$(".paragraph").append(content);
 			}
+			
+			function selectMenu(menuID) {
+				$(".menuitem").css("background-color", "#515873");
+				$("#" + menuID).css("background-color", "#963412");
+			}
 		</script>
 	</head>
 	
@@ -43,8 +48,14 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 		</form>
 	</div>
 	
+	<div id="menu">
+		<ul>
+			<li><a class="menuitem" id="addpost" onclick="selectMenu('addpost')">Add Post</a></li>
+			<li><a class="menuitem" id="editpost" onclick="selectMenu('editpost')">Edit Post</a></li>
+		</ul>
+		<p class="clear"></p>
+	</div>
 	<div id="addpostform">
-		<h1 id="title">Add Post</h1>
 		<form id="form" action="addpost.php" onsubmit="return check()" name="loginform" method="post">
 			<p class="label">Date</p>
 <?php
@@ -76,11 +87,11 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	
 <?php
 	function showLoginForm() {
-		echo '<script>$("#addpostform").remove(); $("#preview").remove();</script>';
+		echo '<script>$("#addpostform").remove(); $("#preview").remove(); $("#menu").remove();</script>';
 	}
 	
 	function showAdminPage() {
-		echo '<script>$("#loginform").remove();</script>';
+		echo '<script>$("#loginform").remove(); selectMenu("addpost");</script>';
 		$con = connectDB();
 		mysql_close($con);
 	}
