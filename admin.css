@@ -86,6 +86,11 @@ div.paragraph:hover {
 #addpostform .form {
 	width: 600px;
 }
+#title {
+	font-size: 18px;
+	color: #ffffff;
+	text-align: center;
+}
 h2.date {
 	font-family: Cambria;
 	color: #2bacfe;
