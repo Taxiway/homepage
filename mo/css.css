@@ -1,0 +1,29 @@
+body {
+	font-family: Monaco, "Lucida Console", Verdana;
+	color: #e0e0e0;
+	background-color: #1f1f1f;
+}
+a {
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+	text-decoration:none;
+}
+a:hover {
+	opacity: 1.0;
+	filter: alpha(opacity = 100);
+}
+a:link, a:visited {
+	color: #a7a7a7
+}
+.clear {
+	clear: both;
+}
+.rightfloat {
+	float:right;
+}
+p.center {
+	text-align: center;
+}
+p.del {
+	text-decoration: line-through;
+}
