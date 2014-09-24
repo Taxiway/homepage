@@ -80,6 +80,23 @@ div.paragraph:hover {
 .form {
 	float: right;
 }
+#buttons {
+	float: right;
+	width: 200px;
+}
+#buttons input {
+	clear: both;
+	float: right;
+	margin: 0px 20px 5px 0px;
+	width: 60px;
+}
+#buttons pre {
+	clear: both;
+	float: right;
+	margin: 0px 20px 5px 0px;
+	width: 80px;
+	color: #fedcba;
+}
 #loginform .form {
 	width: 150px;
 }

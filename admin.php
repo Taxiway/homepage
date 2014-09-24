@@ -32,6 +32,22 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 				$(".menuitem").css("background-color", "#515873");
 				$("#" + menuID).css("background-color", "#963412");
 			}
+			
+			function addContent(toAdd) {
+				var content = $("textarea[name='content']").val();
+				var textarea = document.getElementById("content");
+				var start = textarea.selectionStart, end = textarea.selectionEnd;
+				var newContent = content.substring(0, start) + toAdd + content.substring(end, content.length);
+				$("textarea[name='content']").val(newContent);
+				textarea.setSelectionRange(start + toAdd.length, start + toAdd.length);
+				textarea.focus();
+			}
+			
+			function addTag(obj) {
+				var tag = obj.value;
+				var addString = "<" + tag + "></" + tag + ">";
+				addContent(addString);
+			}
 		</script>
 	</head>
 	
@@ -66,7 +82,17 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 			<p class="label">Pre-paragraph</p>
 			<div class="form"><textarea name="pre" rows="10" cols="80"></textarea></div>
 			<p class="label">Content</p>
-			<div class="form"><textarea name="content" rows="20" cols="80"></textarea></div>
+			<div class="form"><textarea id="content" name="content" rows="20" cols="80"></textarea></div>
+			<div id="buttons">
+				<pre>Tags</pre>
+				<input type="button" name="p" value="p" onclick="addTag(this)"></button>
+				<input type="button" name="ul" value="ul" onclick="addTag(this)"></button>
+				<input type="button" name="ol" value="ol" onclick="addTag(this)"></button>
+				<input type="button" name="li" value="li" onclick="addTag(this)"></button>
+				<input type="button" name="a" value="a" onclick="addTag(this)"></button>
+				<pre>Special Char</pre>
+				<input type="button" name="t" value="\t" onclick="addContent('\t')"></button>
+			</div>
 			<div class="form">
 				<span>HTML:</span>
 				<input type="radio" name="type" value="html" checked="checked"></input>
