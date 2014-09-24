@@ -1,3 +1,23 @@
+<?php
+	include 'util.php';
+	$con = connectDB();
+	$result = mysql_query("SELECT * FROM posts");
+	$idArray = array();
+	$dateArray = array();
+	$preArray = array();
+	$contentArray = array();
+	while($row = mysql_fetch_array($result)) {
+		array_push($idArray, "p" . $row['id']);
+		array_push($dateArray, str_replace("-", ".", $row['date']));
+		array_push($preArray, $row['pre']);
+		array_push($contentArray, $row['content']);
+	}
+	$idArray = array_reverse($idArray);
+	$dateArray = array_reverse($dateArray);
+	$preArray = array_reverse($preArray);
+	$contentArray = array_reverse($contentArray);
+?>
+
 <!DOCTYPE html
 PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -32,8 +52,12 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 			<div id="index">
 				<p class="center" onclick="toggleList('index')">Index</p>
 				<ul>
-					<li><a href="#p20140918">2014.09.18</a></li>
-					<li><a href="#p20140818">2014.08.18</a></li>
+<?php
+	$size = count($dateArray);
+	for ($i = 0; $i < $size; ++$i) {
+		echo '<li><a href="#', $idArray[$i], '">', $dateArray[$i], "</a></li>\n";
+	}
+?>
 				</ul>
 			</div>
 			
@@ -44,19 +68,18 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 		</div>
 		
 		<div id="content">
-		
-			<div class="paragraph" id="p20140918">
-				<h2 class="date">2014.09.18</h2>
-				
-				<p>就职 猎豹移动。</p>
-			</div>
-			
-			<div class="paragraph" id="p20140818">
-				<h2 class="date">2014.08.18</h2>
-				
-				<p>MSTR 离职。</p>
-			</div>
-			
+<?php
+	$size = count($dateArray);
+	for ($i = 0; $i < $size; ++$i) {
+		echo '<div class="paragraph" id="' . $idArray[$i] . '">' . "\n";
+		if (strlen($preArray[$i]) != 0) {
+			echo $preArray[$i] . "\n";
+		}
+		echo '<h2 class="date">' . $dateArray[$i] . "</h2>\n\n";
+		echo $contentArray[$i] . "\n";
+		echo "</div>\n";
+	}
+?>
 		</div>
 		
 		<div id="rightbar">
