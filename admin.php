@@ -17,6 +17,12 @@
 	$dateArray = array_reverse($dateArray);
 	$preArray = array_reverse($preArray);
 	$contentArray = array_reverse($contentArray);
+	echo "<script>\n";
+	echo 'idArr = ' . json_encode($idArray) . ";\n";
+	echo 'dateArr = ' . json_encode($dateArray) . ";\n";
+	echo 'preArr = ' . json_encode($preArray) . ";\n";
+	echo 'contentArr = ' . json_encode($contentArray) . ";\n";
+	echo "</script>\n";
 ?>
 <!DOCTYPE html
 PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -77,15 +83,43 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 				$("#posts").hide();
 				$("#addpostform").show();
 				$("#preview").show();
+				$(".editonly").hide();
+				$("#addpostform input[value='Add']").show();
+				$("#addpostform input[value='Modify']").hide();
+				$("input[name='id']").val("NAN");
+				
 				selectMenu("addpost");
 			}
 			
 			function showEditPostForm() {
 				$("#loginform").hide();
-				$("#addpostform").hide();
 				$("#preview").hide();
 				$("#posts").show();
+				$("#addpostform").hide();
 				selectMenu("editpost");
+			}
+			
+			function modifyPost(id) {
+				$("#loginform").hide();
+				$("#posts").hide();
+				$("#addpostform").show();
+				$("#preview").show();
+				$(".editonly").show();
+				$("#addpostform input[value='Add']").hide();
+				$("#addpostform input[value='Modify']").show();
+				
+				for (var i = 0; i < idArr.length; ++i) {
+					if (id == idArr[i]) {
+						var date = dateArr[i];
+						date = date.replace(/\./g, "-");
+						var pre = preArr[i];
+						var content = contentArr[i];
+						$("input[name='id']").val(id.substring(1));
+						$("input[name='date']").val(date);
+						$("textarea[name='pre']").val(pre);
+						$("textarea[name='content']").val(content);
+					}
+				}
 			}
 		</script>
 	</head>
@@ -111,7 +145,9 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 		<p class="clear"></p>
 	</div>
 	<div id="addpostform">
-		<form id="form" action="addpost.php" onsubmit="return check()" name="loginform" method="post">
+		<form id="form" action="editpost.php" onsubmit="return check()" name="addpostform" method="post">
+			<p class="label editonly">ID</p>
+			<div class="form editonly"><input name="id" type="text" readonly="readonly"></input></div>
 			<p class="label">Date</p>
 <?php
 	echo '<div class="form"><input name="date" type="date" value="20';
@@ -140,7 +176,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 			</div>
 			<div class="form">
 				<input type="button" value="Preview" onclick="showPreview()"></input>
-				<input type="submit"></input>
+				<input type="submit" value="Add"></input>
+				<input type="submit" value="Modify"></input>
 			</div>
 		</form>
 	</div>
@@ -160,6 +197,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 		}
 		echo '<h2 class="date">' . $dateArray[$i] . "</h2>\n\n";
 		echo $contentArray[$i] . "\n";
+		echo '<input type="button" value="Modify" onclick="modifyPost(' .
+			"'" . $idArray[$i] . "'" . ')"></input>' . "\n";
 		echo "</div>\n";
 	}
 ?>

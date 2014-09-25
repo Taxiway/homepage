@@ -16,9 +16,12 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	<body>
 <?php
 	if (array_key_exists("logged", $_SESSION) && $_SESSION["logged"]) {
-		$date = $pre = $content = $type = "";
+		$id = $date = $pre = $content = $type = "";
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$con = connectDB();
+			if (!empty($_POST["id"])) {
+				$id = $_POST["id"];
+			}
 			if (!empty($_POST["date"])) {
 				$date = $_POST["date"];
 			}
@@ -31,10 +34,18 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 			if (!empty($_POST["type"])) {
 				$type = $_POST["type"];
 			}
-			echo $date. $pre. $content. $type;
+			if ($id == "NAN") {
+				// add post
+				$query = "INSERT INTO posts (date, pre, content) VALUES ('" .
+					$date . "', '" . $pre . "', '" . $content . "')";
+			} else {
+				// edit post
+				echo "<script>document.title = 'Edit post'</script>";
+				$query = "UPDATE posts SET date = '". $date. "', pre = '". $pre. "', content = '". $content.
+					"' WHERE id = '". $id. "'";
+			}
+			echo "Done";
 			
-			$query = "INSERT INTO posts (date, pre, content) VALUES ('" .
-				$date . "', '" . $pre . "', '" . $content . "')";
 			mysql_query($query);
 			mysql_close($con);
 		}
