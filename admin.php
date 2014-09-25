@@ -1,6 +1,22 @@
 <?php
 	include 'util.php';
 	initialize();
+	$con = connectDB();
+	$result = mysql_query("SELECT * FROM posts");
+	$idArray = array();
+	$dateArray = array();
+	$preArray = array();
+	$contentArray = array();
+	while($row = mysql_fetch_array($result)) {
+		array_push($idArray, "p" . $row['id']);
+		array_push($dateArray, str_replace("-", ".", $row['date']));
+		array_push($preArray, $row['pre']);
+		array_push($contentArray, $row['content']);
+	}
+	$idArray = array_reverse($idArray);
+	$dateArray = array_reverse($dateArray);
+	$preArray = array_reverse($preArray);
+	$contentArray = array_reverse($contentArray);
 ?>
 <!DOCTYPE html
 PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -18,14 +34,14 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 			}
 			
 			function showPreview() {
-				$(".paragraph").empty();
+				$("#preview .paragraph").empty();
 				var date = $("input[name='date']").val();
 				date = date.replace(/-/g, ".");
 				var pre = $("textarea[name='pre']").val();
 				var content = $("textarea[name='content']").val();
-				$(".paragraph").append(pre);
-				$(".paragraph").append('<h2 class="date">' + date + "</h2>");
-				$(".paragraph").append(content);
+				$("#preview .paragraph").append(pre);
+				$("#preview .paragraph").append('<h2 class="date">' + date + "</h2>");
+				$("#preview .paragraph").append(content);
 			}
 			
 			function selectMenu(menuID) {
@@ -48,6 +64,29 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 				var addString = "<" + tag + "></" + tag + ">";
 				addContent(addString);
 			}
+			
+			function showLoginForm() {
+				$("#addpostform").hide();
+				$("#preview").hide();
+				$("#menu").hide();
+				$("#posts").hide();
+			}
+			
+			function showAddPostForm() {
+				$("#loginform").hide();
+				$("#posts").hide();
+				$("#addpostform").show();
+				$("#preview").show();
+				selectMenu("addpost");
+			}
+			
+			function showEditPostForm() {
+				$("#loginform").hide();
+				$("#addpostform").hide();
+				$("#preview").hide();
+				$("#posts").show();
+				selectMenu("editpost");
+			}
 		</script>
 	</head>
 	
@@ -66,8 +105,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	
 	<div id="menu">
 		<ul>
-			<li><a class="menuitem" id="addpost" onclick="selectMenu('addpost')">Add Post</a></li>
-			<li><a class="menuitem" id="editpost" onclick="selectMenu('editpost')">Edit Post</a></li>
+			<li><a href="#" class="menuitem" id="addpost" onclick="showAddPostForm()">Add Post</a></li>
+			<li><a href="#" class="menuitem" id="editpost" onclick="showEditPostForm()">Edit Post</a></li>
 		</ul>
 		<p class="clear"></p>
 	</div>
@@ -111,15 +150,28 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 		</div>
 	</div>
 	
+	<div id="posts">
+<?php
+	$size = count($dateArray);
+	for ($i = 0; $i < $size; ++$i) {
+		echo '<div class="paragraph" id="' . $idArray[$i] . '">' . "\n";
+		if (strlen($preArray[$i]) != 0) {
+			echo $preArray[$i] . "\n";
+		}
+		echo '<h2 class="date">' . $dateArray[$i] . "</h2>\n\n";
+		echo $contentArray[$i] . "\n";
+		echo "</div>\n";
+	}
+?>
+	</div>
+	
 <?php
 	function showLoginForm() {
-		echo '<script>$("#addpostform").remove(); $("#preview").remove(); $("#menu").remove();</script>';
+		echo '<script>showLoginForm();</script>';
 	}
 	
 	function showAdminPage() {
-		echo '<script>$("#loginform").remove(); selectMenu("addpost");</script>';
-		$con = connectDB();
-		mysql_close($con);
+		echo '<script>showAddPostForm();</script>';
 	}
 
 	if (array_key_exists("logged", $_SESSION) && $_SESSION["logged"]) {
