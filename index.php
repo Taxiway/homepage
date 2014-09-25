@@ -155,7 +155,10 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 		$line = fgets($myfile);
 		$type = substr($line, 0, 6);
 		if ($type == "看过" or $type == "在看" or $type == "搁置" or $type == "抛弃") {
-			$url = substr($line, 16, strlen($line) - 16);
+			if ($type == "搁置") {
+				$type = "搁置了";
+			}
+			$url = substr($line, 10 + strlen($type), strlen($line) - 10 - strlen($type));
 			$other = strstr($url, '"');
 			$url = substr($url, 0, strlen($url) - strlen($other));
 			
