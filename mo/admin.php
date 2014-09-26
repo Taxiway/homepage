@@ -120,6 +120,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 						$("textarea[name='content']").val(content);
 					}
 				}
+				showPreview();
 			}
 		</script>
 	</head>
