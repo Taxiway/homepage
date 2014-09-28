@@ -65,9 +65,20 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 				textarea.focus();
 			}
 			
+			function getSelectedText() {
+				var content = $("textarea[name='content']").val();
+				var textarea = document.getElementById("content");
+				var start = textarea.selectionStart, end = textarea.selectionEnd;
+				return content.substring(start, end);
+			}
+			
 			function addTag(obj) {
 				var tag = obj.value;
-				var addString = "<" + tag + "></" + tag + ">";
+				var openTag = tag, closeTag = tag;
+				if (tag == "a") {
+					openTag = 'a href=""';
+				}
+				var addString = "<" + openTag + ">" + getSelectedText() + "</" + closeTag + ">";
 				addContent(addString);
 			}
 			

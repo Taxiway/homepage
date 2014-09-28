@@ -44,7 +44,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 				$query = "UPDATE posts SET date = '". $date. "', pre = '". $pre. "', content = '". $content.
 					"' WHERE id = '". $id. "'";
 			}
-			echo "Done";
+			echo "Done. Jumping to the homepage......";
+			echo "<script>location.href='index.php';</script>";
 			
 			mysql_query($query);
 			mysql_close($con);
