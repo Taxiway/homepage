@@ -133,6 +133,12 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 				}
 				showPreview();
 			}
+			
+			function deletePost(id) {
+				if (confirm("Are you sure to delete the post?")) {
+					location.href = 'editpost.php?id=' + id;
+				}
+			}
 		</script>
 	</head>
 	
@@ -210,6 +216,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 		echo '<h2 class="date">' . $dateArray[$i] . "</h2>\n\n";
 		echo $contentArray[$i] . "\n";
 		echo '<input type="button" value="Modify" onclick="modifyPost(' .
+			"'" . $idArray[$i] . "'" . ')"></input>' . "\n";
+		echo '<input type="button" value="Delete" onclick="deletePost(' .
 			"'" . $idArray[$i] . "'" . ')"></input>' . "\n";
 		echo "</div>\n";
 	}
