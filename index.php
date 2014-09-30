@@ -161,6 +161,9 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 			$url = substr($line, 10 + strlen($type), strlen($line) - 10 - strlen($type));
 			$other = strstr($url, '"');
 			$url = substr($url, 0, strlen($url) - strlen($other));
+			if (substr($url, 0, 1) == "/") {
+				$url = "http:" . $url;
+			}
 			
 			$title = "";
 			if (array_key_exists($url, $map)) {

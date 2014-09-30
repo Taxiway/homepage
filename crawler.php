@@ -26,8 +26,12 @@
 				$type = "搁置了";
 			}
 			$url = substr($line, 10 + strlen($type), strlen($line) - 10 - strlen($type));
+
 			$other = strstr($url, '"');
 			$url = substr($url, 0, strlen($url) - strlen($other));
+			if (substr($url, 0, 1) == "/") {
+				$url = "http:" . $url;
+			}
 			
 			$title = "";
 			if (array_key_exists($url, $map)) {
