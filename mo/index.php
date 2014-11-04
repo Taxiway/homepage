@@ -6,16 +6,30 @@
 	$dateArray = array();
 	$preArray = array();
 	$contentArray = array();
+	$index = array();
+	$i = 0;
 	while($row = mysql_fetch_array($result)) {
 		array_push($idArray, "p" . $row['id']);
 		array_push($dateArray, str_replace("-", ".", $row['date']));
 		array_push($preArray, $row['pre']);
 		array_push($contentArray, $row['content']);
+		array_push($index, $i);
+		$i += 1;
 	}
-	$idArray = array_reverse($idArray);
-	$dateArray = array_reverse($dateArray);
-	$preArray = array_reverse($preArray);
-	$contentArray = array_reverse($contentArray);
+	for ($j = 0; $j < $i; ++$j) {
+		$k = $j;
+		$index[$k] = $j;
+		while ($k > 0) {
+			if ($dateArray[$index[$k]] > $dateArray[$index[$k - 1]] || ($dateArray[$index[$k]] == $dateArray[$index[$k - 1]] && $id[$index[$k]] > $id[$index[$k - 1]])) {
+				$index[$k] = $index[$k - 1];
+				$index[$k - 1] = $j;
+				$k -= 1;
+			} else {
+				break;
+			}
+		}
+		
+	}
 ?>
 
 <!DOCTYPE html
@@ -55,7 +69,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <?php
 	$size = count($dateArray);
 	for ($i = 0; $i < $size; ++$i) {
-		echo '<li><a href="#', $idArray[$i], '">', $dateArray[$i], "</a></li>\n";
+		echo '<li><a href="#', $idArray[$index[$i]], '">', $dateArray[$index[$i]], "</a></li>\n";
 	}
 ?>
 				</ul>
@@ -71,12 +85,12 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <?php
 	$size = count($dateArray);
 	for ($i = 0; $i < $size; ++$i) {
-		echo '<div class="paragraph" id="' . $idArray[$i] . '">' . "\n";
-		if (strlen($preArray[$i]) != 0) {
-			echo $preArray[$i] . "\n";
+		echo '<div class="paragraph" id="' . $idArray[$index[$i]] . '">' . "\n";
+		if (strlen($preArray[$index[$i]]) != 0) {
+			echo $preArray[$index[$i]] . "\n";
 		}
-		echo '<h2 class="date">' . $dateArray[$i] . "</h2>\n\n";
-		echo $contentArray[$i] . "\n";
+		echo '<h2 class="date">' . $dateArray[$index[$i]] . "</h2>\n\n";
+		echo $contentArray[$index[$i]] . "\n";
 		echo "</div>\n";
 	}
 ?>
