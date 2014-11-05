@@ -100,9 +100,30 @@ h2.date {
 }
 span.year {
 	color: #2fea3c;
-	font-weight:bold;
+	font-weight: bold;
 }
 span.name {
 	color: #faafbe;
 	font-weight: bold;
+}
+table.style1 {
+	margin-left: auto;
+	margin-right: auto;
+}
+table.style1 th {
+	text-align: left;
+	color: #6798D9;
+	font-weight: bold;
+}
+table.style1 td {
+	color: #ffffff;
+}
+table.style1 tr.first td{
+	color: #fafad2;
+}
+table.style1 tr.second td{
+	color: #e6e8fa;
+}
+table.style1 tr.third td{
+	color: #b5a642;
 }
