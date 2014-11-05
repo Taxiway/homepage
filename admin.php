@@ -31,6 +31,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" type="text/css" href="css.css" />
+		<link rel="stylesheet" type="text/css" href="posts.css" />
 		<link rel="stylesheet" type="text/css" href="admin.css" />
 		<title>Admin</title>
 		<script src="jquery-1.11.1.min.js"></script>

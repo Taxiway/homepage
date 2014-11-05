@@ -35,6 +35,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 			if (!empty($_POST["type"])) {
 				$type = $_POST["type"];
 			}
+			$pre = addslashes($pre);
+			$content = addslashes($content);
 			if ($id == "NAN") {
 				// add post
 				$query = "INSERT INTO posts (date, pre, content) VALUES ('" .
@@ -60,6 +62,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 				$query = "DELETE FROM posts WHERE id ='" . $id . "'";
 				mysql_query($query);
 				
+				$pre = addslashes($pre);
+				$content = addslashes($content);
 				$query = "INSERT INTO oldposts (oldid, date, pre, content) VALUES ('" . $id . "', '" .
 					$date . "', '" . $pre . "', '" . $content . "')";
 				mysql_query($query);
