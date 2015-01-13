@@ -15,6 +15,9 @@ div.paragraph:hover {
 div.paragraph p {
 	text-indent: 2em;
 }
+div.paragraph p.center {
+	text-indent: 0em;
+}
 div.paragraph li {
 	margin: 0.2em 0em 0em 2em
 }
