@@ -155,7 +155,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	while (!feof($myfile)) {
 		$line = fgets($myfile);
 		$type = substr($line, 0, 6);
-		if ($type == "看过" or $type == "在看" or $type == "搁置" or $type == "抛弃") {
+		if ($type == "看过" or $type == "在看" or $type == "搁置" or $type == "抛弃" or $type == "读过") {
 			if ($type == "搁置") {
 				$type = "搁置了";
 			}
